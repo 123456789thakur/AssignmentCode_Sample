@@ -1,0 +1,56 @@
+import io.cucumber.java.en.*;
+import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.*;
+
+public class SearchIphoneSteps {
+
+    WebDriver driver;
+
+    @Given("User is on Amazon.in homepage")
+    public void userIsOnAmazonHomepage() {
+        // Initialize WebDriver and navigate to Amazon.in
+        System.setProperty("webdriver.chrome.driver", "path_to_chromedriver");
+        driver = new ChromeDriver();
+        driver.get("https://www.amazon.in/");
+        
+    }
+
+    @When("User searches for {string} and selects a product")
+    public void userSearchesForProduct(String product) {
+        // Implement searching for the product and selecting it
+        WebElement searchBox = driver.findElement(By.id("twotabsearchtextbox"));
+        searchBox.sendKeys("iPhone");
+        searchBox.submit();
+}
+
+    @And("User navigates to the product details page")
+    public void userNavigatesToProductDetailsPage() {
+   // Implement navigation to the product details page
+        WebElement firstResult = driver.findElement(By.xpath("//div[@data-index='0']//h2//a"));
+        firstResult.click();
+
+    }
+
+    @Then("User stores the price of the product")
+    public void userStoresProductPrice() {
+  // Extract the price of the product and store it in a variable
+        WebElement priceElement = driver.findElement(By.id("priceblock_ourprice")); // Update with the correct price element locator
+        selectedProductPrice = priceElement.getText();
+        // Extract the price of the product and store it in a variable
+    }
+
+    @And("User adds the product to the cart")
+    public void userAddsProductToCart() {
+        // Implement adding the product to the cart
+     WebElement addToCartButton = driver.findElement(By.id("add-to-cart-button")); // Update with the correct add to cart button locator
+        addToCartButton.click();
+    }
+
+    @After
+    public void closeBrowser() {
+        // Close the browser after scenario execution
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+}

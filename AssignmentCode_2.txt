@@ -1,0 +1,72 @@
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
+
+public class AmazonSteps {
+    WebDriver driver;
+   WebDriverWait wait = new WebDriverWait(driver, 10);
+
+    @Given("I am on the Amazon website")
+    public void navigateToAmazon() {
+        System.setProperty("webdriver.chrome.driver", "path/to/chromedriver");
+        driver = new ChromeDriver();
+        driver.get("https://www.amazon.in/");
+    }
+
+    @When("I register as a new user")
+    public void registerNewUser() {
+        // Implement user registration steps
+    WebElement id=driver.findElement(By.//input[@id="ap_email"]);
+    id.sendKeys("emailId");
+ }
+
+    @Given("I am logged in to Amazon")
+    public void loginToAmazon() {
+        // Implement login step
+   WebElement signInButton = driver.findElement(By.id("nav-signin-tooltip"));
+        signInButton.click();
+    }
+
+    @When("I search for a phone")
+    public void searchForPhone() {
+        // Implement phone search steps
+   WebElement searchButton = driver.findElement(By.id("nav-search-submit-button"));
+        searchButton.click();
+
+    }
+
+    @And("I apply filters for the phone")
+    public void applyFilters() {
+        // Implement filter application steps
+       WebElement filterBrand = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[text()='Brand']/following-sibling::span")));
+        filterBrand.click();
+        WebElement brandOption = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[text()='Samsung']"))); // Change to your preferred brand
+        brandOption.click();
+    }
+
+    @Then("I should see filtered results")
+    public void validateFilteredResults() {
+        // Implement validation of filtered results
+      WebElement filteredResults = driver.findElement(By.xpath("//div[@class='s-result-list']/div[@data-brand='Samsung']"));
+         if (filteredResults.isDisplayed()) {
+            System.out.println("Filtering successful - Displayed items are from the selected brand");
+         } else {
+           System.out.println("Filtering failed - Items displayed do not match the selected brand");
+         }
+
+        Assert.assertTrue(/* validation condition */, "Filtered results are displayed");
+    }
+   @After
+    public void tearDown() {
+        // Quit WebDriver
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+    }
+

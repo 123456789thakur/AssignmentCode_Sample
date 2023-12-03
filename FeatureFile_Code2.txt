@@ -1,0 +1,11 @@
+
+Feature: Amazon Phone Search
+  Scenario: Register a new user
+    Given I am on the Amazon website
+    When I register as a new user
+    
+  Scenario: Search for a phone and apply filters
+    Given I am logged in to Amazon
+    When I search for a phone
+    And I apply filters for the phone
+    Then I should see filtered results
